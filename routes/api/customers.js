@@ -41,7 +41,7 @@ router.put('/:id', auth, ( req, res ) => {
     const { firstName, lastName, phoneNumber } = req.body;
 
     Customer.findByIdAndUpdate(req.params.id, { $set: { firstName, lastName, phoneNumber } })
-        .then(customer => res.json({ old: { firstName: customer.firstName, lastName: customer.lastName, phoneNumber: customer.phoneNumber}, new: { firstName, lastName, phoneNumber }}))
+        .then(customer => res.json({ _id: customer._id, firstName, lastName, phoneNumber, _v: customer._v }))
         .catch(err => res.status(404).json({ msg: "No customer with that id", err }))
 });
 
