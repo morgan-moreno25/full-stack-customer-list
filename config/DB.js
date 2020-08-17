@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const config = require('config');
 
 class DB {
-    uri;
-
     constructor(){
         this.uri = config.get('mongoURI');
     }

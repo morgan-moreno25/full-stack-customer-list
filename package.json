@@ -4,7 +4,7 @@
   "description": "Customer list built using MERN stack",
   "main": "server.js",
   "scripts": {
-    "start" : "node server.js",
+    "start": "node server.js",
     "server": "nodemon server.js"
   },
   "repository": {
@@ -18,10 +18,12 @@
   },
   "homepage": "https://github.com/morgan-moreno25/full-stack-customer-list#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "concurrently": "^5.3.0",
     "config": "^3.3.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.0"
   },
   "devDependencies": {

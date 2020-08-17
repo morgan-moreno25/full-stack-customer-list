@@ -1,5 +1,9 @@
 const express = require('express');
 const DB = require('./config/DB');
+const requestHeaders = require('./middleware/headers');
+const cors = require('cors');
+
+const baseRouter = require('./routes/api');
 
 const app = express();
 
@@ -8,6 +12,8 @@ DB.connect();
 
 // Middleware
 app.use(express.json());
+app.use(requestHeaders);
+app.use(cors());
 
 // Routing
 app.use('/api', baseRouter);
