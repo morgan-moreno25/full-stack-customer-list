@@ -32,9 +32,9 @@ export default function( state = initialState, action){
         case DELETE_CUSTOMER:
             return {
                 ...state,
-                customers: state.customers.filter(customer._id !== action.id),
+                customers: state.customers.filter(customer => customer._id !== action.id),
             };
-        case ITEMS_LOADING:
+        case CUSTOMERS_LOADING:
             return {
                 ...state,
                 isLoading: true,

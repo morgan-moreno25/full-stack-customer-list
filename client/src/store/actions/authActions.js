@@ -1,7 +1,6 @@
 import { USER_LOADED, USER_LOADING, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS, REGISTER_SUCCESS, REGISTER_FAIL } from './types';
 import { returnErrors } from './errorActions';
 import axios from 'axios';
-import { response } from 'express';
 
 // Check token & load user
 export const loadUser = () => (dispatch, getState) => {
@@ -57,7 +56,7 @@ export const login = ({ email, password }) => dispatch => {
     axios.post('/api/auth', body, config)
         .then(res => dispatch({
             type: LOGIN_SUCCESS,
-            payload: response.data,
+            payload: res.data,
         }))
         .catch(err => {
             dispatch(returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL'));

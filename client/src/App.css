@@ -1,0 +1,50 @@
+#welcome {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 25vh 75vh;
+    justify-items: center;
+    align-items: center;
+}
+#login-register {
+    justify-self: center;
+    align-self: start;
+    border: 1px solid black;
+    padding: 20px;
+    height: 80%;
+    background: lightgray;
+    display: grid;
+    grid-template-rows: 10% 90%;
+}
+#login-form {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 1fr);
+}
+#login-form > h2, #register-form > h2 {
+    justify-self: start;
+    align-self: center;
+    text-decoration: underline;
+}
+#login-form > button, #register-form > button {
+    font-weight: bold;
+    height: 50%;
+    width: 100%;
+    justify-self: center;
+    align-self: center;
+}
+#register-form {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 1fr);
+}
+.btn-group {
+    justify-self: center;
+    align-self: center;
+    height: 100%;
+}
+.btn-group > button {
+    font-weight: bold;
+    color: white;
+}

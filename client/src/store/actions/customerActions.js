@@ -1,10 +1,10 @@
-import { GET_CUSTOMERS, ADD_CUSTOMER, UPDATE_CUSTOMER, DELETE_CUSTOMER, ITEMS_LOADING } from './types';
+import { GET_CUSTOMERS, ADD_CUSTOMER, UPDATE_CUSTOMER, DELETE_CUSTOMER, CUSTOMERS_LOADING } from './types';
 import axios from 'axios';
 import { tokenConfig } from './authActions';
 
-const setItemsLoading = () => {
+const setCustomersLoading = () => {
     return {
-        type: ITEMS_LOADING,
+        type: CUSTOMERS_LOADING,
     };
 };
 
