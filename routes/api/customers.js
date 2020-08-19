@@ -12,7 +12,7 @@ const router = express.Router();
  */
 router.get('/', ( req, res ) => {
     Customer.find()
-        .sort({ lastName: -1 })
+        .sort({ lastName: 1 })
         .then(customers => res.json(customers))
         .catch(err => console.log(err))
 });

@@ -1,3 +1,17 @@
+body {
+    height: 100%;
+    width: 100%;
+}
+#root {
+    height: 100%;
+    width: 100%;
+}
+#app {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+}
 #welcome {
     display: grid;
     grid-template-columns: 1fr;
@@ -9,6 +23,7 @@
     justify-self: center;
     align-self: start;
     border: 1px solid black;
+    box-shadow: 0 0 10px black;
     padding: 20px;
     height: 80%;
     background: lightgray;
@@ -38,6 +53,32 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(5, 1fr);
+}
+#customer-list-container {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 10% 90%;
+}
+#app-bar {
+    display: grid;
+    grid-template-columns: 10% 70% 10% 10%;
+    grid-template-rows: 1fr;
+    grid-template-areas: "logo . logout theme";
+    justify-items: center;
+    align-items: center;
+}
+#logo {
+    grid-area: logo;
+}
+#logout {
+    grid-area: logout;
+    color: white;
+}
+#theme-toggle {
+    grid-area: theme;
+    color: white;
 }
 .btn-group {
     justify-self: center;

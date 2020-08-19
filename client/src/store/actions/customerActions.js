@@ -9,7 +9,7 @@ const setCustomersLoading = () => {
 };
 
 export const getCustomers = () => dispatch => {
-    dispatch(setItemsLoading());
+    dispatch(setCustomersLoading());
     axios.get('/api/customers')
         .then(res => {
             dispatch({

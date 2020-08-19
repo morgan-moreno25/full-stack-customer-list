@@ -10,33 +10,46 @@ import LoginForm from './auth/LoginForm';
 import RegisterForm from './auth/RegisterForm';
 
 
-const Welcome = () => {
-    const [ login, setLogin ] = React.useState(true);
-    const [ register, setRegister ] = React.useState(false);
-
-    const handleLoginClick = () => {
-        setRegister(false);
-        setLogin(true);
-    };
-    const handleRegisterClick = () => {
-        setLogin(false);
-        setRegister(true);
+class Welcome extends React.Component {
+    state = {
+        login: true,
+        regitster: false,
     };
 
-    return(
-        <div id="welcome">
-            <Typography variant="h1">WELCOME TO CUSTOMER LIST</Typography>
-            <Container id="login-register" maxWidth="sm">
-                <AppBar position="static" color="primary" >
-                    <ButtonGroup variant="text" className="btn-group">
-                        <Button type="button" onClick={handleLoginClick}>Login</Button>
-                        <Button type="button" onClick={handleRegisterClick}>Register</Button>
-                    </ButtonGroup>
-                </AppBar>
-                { login ? <LoginForm /> : <RegisterForm /> }
-            </Container>
-        </div>
-    );
+    handleLoginClick = () => {
+        this.setState({
+            ...this.state,
+            login: true,
+            register: false,
+        });
+    };
+    handleRegisterClick = () => {
+        this.setState({
+            ...this.state,
+            login: false,
+            register: true,
+        });
+    };
+
+
+    render(){
+        const { login } = this.state;
+        return(
+            <div id="welcome">
+                <Typography variant="h1">WELCOME TO CUSTOMER LIST</Typography>
+                <Container id="login-register" maxWidth="sm">
+                    <AppBar position="static" color="primary" >
+                        <ButtonGroup variant="text" className="btn-group">
+                            <Button type="button" onClick={this.handleLoginClick}>Login</Button>
+                            <Button type="button" onClick={this.handleRegisterClick}>Register</Button>
+                        </ButtonGroup>
+                    </AppBar>
+                    { login ? <LoginForm /> : <RegisterForm /> }
+                </Container>
+            </div>
+        );
+    }
+    
 };
 
 export default Welcome;

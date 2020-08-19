@@ -1,10 +1,12 @@
 import React from 'react';
 import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 
 
 import Welcome from './components/Welcome';
+import CustomerList from './components/CustomerList';
 
 
 const themeObject = {
@@ -47,11 +49,18 @@ const App = () => {
   const themeConfig = createMuiTheme(theme);
 
   return (
-    <MuiThemeProvider theme={themeConfig}>
-      <div id="app">
-        <Welcome />
-      </div>
-    </MuiThemeProvider>
+    <Router>
+      <MuiThemeProvider theme={themeConfig}>
+        <div id="app">
+          <Route exact path="/">
+            <Welcome />
+          </Route>
+          <Route path="/customer-list">
+            <CustomerList toggleTheme={toggleDarkMode}/>
+          </Route>
+        </div>
+      </MuiThemeProvider>
+    </Router>
   );
 };
 
