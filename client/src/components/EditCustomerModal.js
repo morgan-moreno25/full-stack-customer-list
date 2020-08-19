@@ -8,11 +8,11 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import Typography from '@material-ui/core/Typography';
 
+import { updateCustomer } from '../store/actions/customerActions';
 
-import { addCustomer } from '../store/actions/customerActions';
-
-class AddCustomerModal extends React.Component {
+class EditCustomerModal extends React.Component {
     state = {
         open: false,
         firstName: '',
@@ -20,10 +20,19 @@ class AddCustomerModal extends React.Component {
         phoneNumber: '',
     };
 
-    toggle = () => {
+    componentDidMount(){
+        const { customer } = this.props; 
         this.setState({
-            open: !this.state.open,
+            open: true,
+            firstName: customer.firstName,
+            lastName: customer.lastName,
+            phoneNumber: customer.phoneNumber,
         });
+    };
+
+    toggle = () => {
+        this.setState({ open: !this.state.open });
+        this.props.toggle();
     };
     onChange = (e) => {
         this.setState({
@@ -32,31 +41,37 @@ class AddCustomerModal extends React.Component {
     };
     onSubmit = (e) => {
         e.preventDefault();
-        console.log('ADD CUSTOMER');
+        
+        const { firstName, lastName, phoneNumber } = this.state;
+
+        const newCustomer = { firstName, lastName, phoneNumber };
+
+        this.props.updateCustomer(this.props.customer.id, newCustomer)
+
         this.toggle();
     };
 
     render(){
-        const { open } = this.state;
+        const { open, firstName, lastName, phoneNumber } = this.state;
         return (
             <div>
-                <Button type="button" color="secondary" variant="contained" onClick={this.toggle}>Add Customer</Button>
                 <Modal open={open} onClose={this.toggle}>
-                    <Paper component="form" elevation={10}>
+                    <Paper component="form" elevation={10} className="modal-content">
+                        <Typography variant="h5">Edit Customer Info</Typography>
                         <FormControl>
                             <InputLabel htmlFor="firstName">First Name</InputLabel>
-                            <Input type="text" name="firstName" id="firstName" onChange={this.onChange} />
+                            <Input type="text" name="firstName" id="firstName" value={firstName} onChange={this.onChange} />
                         </FormControl>                        
                         <FormControl>
                             <InputLabel htmlFor="lastName">Last Name</InputLabel>
-                            <Input type="text" name="lastName" id="lastName" onChange={this.onChange} />
+                            <Input type="text" name="lastName" id="lastName" value={lastName} onChange={this.onChange} />
                         </FormControl>
                         <FormControl>
                             <InputLabel htmlFor="phoneNumber">Phone Number</InputLabel>
-                            <Input type="text" name="phoneNumber" id="phoneNumber" onChange={this.onChange} aria-describedby="phone-helper"/>
-                            <FormHelperText id="phone-helper">EX: ###-###-####</FormHelperText>
+                            <Input type="text" name="phoneNumber" id="phoneNumber" value={phoneNumber} onChange={this.onChange} aria-describedby="phone-helper"/>
+                            <FormHelperText id="phone-helper">EX: ###-###-#### (Please enter dashes)</FormHelperText>
                         </FormControl>
-                        <Button type="button" color="primary" variant="contained" onClick={this.onSubmit}>Add Customer</Button>
+                        <Button type="button" color="primary" variant="contained" onClick={this.onSubmit}>Submit Changes</Button>
                     </Paper>
                 </Modal>            
             </div>
@@ -64,4 +79,4 @@ class AddCustomerModal extends React.Component {
     };
 };
 
-export default connect(null, { addCustomer })(AddCustomerModal);
+export default connect(null, { updateCustomer })(EditCustomerModal);

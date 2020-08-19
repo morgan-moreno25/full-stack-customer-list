@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { loadUser, logout } from '../store/actions/authActions';
-import { getCustomers } from '../store/actions/customerActions';
+import { loadUser } from '../store/actions/authActions';
+import { getCustomers, deleteCustomer } from '../store/actions/customerActions';
 
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -21,6 +21,8 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 import Navbar from './Navbar';
 import AddCustomerModal from './AddCustomerModal';
+import EditCustomerModal from './EditCustomerModal';
+import { Redirect } from 'react-router-dom';
 
 const StyledTableCell = withStyles(( theme ) => ({
     head: {
@@ -34,6 +36,7 @@ const StyledTableCell = withStyles(( theme ) => ({
 
 class CustomerList extends React.Component {
     state = {
+        modalOpen: false,
         modalInfo: {
             firstName: null,
             lastName: null,
@@ -42,9 +45,10 @@ class CustomerList extends React.Component {
     };
 
     componentDidMount(){
+        this.props.loadUser();
         this.props.getCustomers();
     };
-    onEditClick = ( [ firstName, lastName, phoneNumber ] ) => {
+    onEditClick = ( [ _id, firstName, lastName, phoneNumber ] ) => {
         let fName = firstName;
         let lName = lastName;
         let pNumber = phoneNumber;
@@ -52,30 +56,31 @@ class CustomerList extends React.Component {
         this.setState({
             ...this.state,
             modalInfo: {
+                id: _id,
                 firstName: fName,
                 lastName: lName,
                 phoneNumber: pNumber,
             }
         });
-    };
-    onModalInfoEdit = (e) => {
-        this.setState({
-            modalInfo: {
-                [e.target.name]: e.target.value,
-            },
-        });
+        this.toggleModal();
     };
     toggleModal = () => {
         this.setState({
             modalOpen: !this.state.modalOpen,
         });
     };
+    onDeleteClick = ( id ) => {
+        console.log(id);
+        this.props.deleteCustomer(id);
+    };
 
     render(){
-        const { toggleTheme } = this.props;
+        const { toggleTheme, isAuthenticated, user } = this.props;
         const { customers } = this.props.customer;
+        const { modalOpen, modalInfo } = this.state;
         return (
             <div id="customer-list-container">
+                { isAuthenticated ? null : <Redirect to="/" />}
                 <Navbar toggleTheme={toggleTheme} />
                 <AddCustomerModal />
                 <Container maxWidth="lg">
@@ -97,8 +102,8 @@ class CustomerList extends React.Component {
                                             <TableCell scope="row" className="fname">{ firstName }</TableCell>
                                             <TableCell className="lname">{ lastName }</TableCell>
                                             <TableCell className="phoneNumber">{ phoneNumber }</TableCell>
-                                            <TableCell><IconButton onClick={this.onEditClick.bind(this, [ firstName, lastName, phoneNumber ])}><EditIcon /></IconButton></TableCell>
-                                            <TableCell><IconButton><DeleteForeverIcon /></IconButton></TableCell>
+                                            <TableCell><IconButton onClick={this.onEditClick.bind(this, [ _id, firstName, lastName, phoneNumber ])}><EditIcon /></IconButton></TableCell>
+                                            <TableCell><IconButton onClick={this.onDeleteClick.bind(this, _id)}><DeleteForeverIcon /></IconButton></TableCell>
                                         </TableRow>
                                     );
                                 })}
@@ -106,14 +111,15 @@ class CustomerList extends React.Component {
                         </Table>
                     </Paper>
                 </Container>
+                { modalOpen ? <EditCustomerModal customer={modalInfo} toggle={this.toggleModal} /> : null}
             </div>
         )
     }
-}
+};
 
 const mapStateToProps = state => ({
     customer: state.customer,
-    user: state.auth.user,
+    isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { logout, getCustomers } )(CustomerList);
+export default connect(mapStateToProps, { loadUser, getCustomers, deleteCustomer } )(CustomerList);
