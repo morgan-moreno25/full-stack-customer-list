@@ -30,7 +30,7 @@ if(process.env.NODE_ENV === 'production'){
 };
 
 // Connect app to server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
+var server = app.listen(process.env.PORT || 5000, () => {
+    var port = server.address().port;
+    console.log("Server listening on port " + port);
 });
