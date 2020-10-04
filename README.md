@@ -24,3 +24,9 @@ From completion of this project I gained experience with the following:
   - User Authentication
     - JSON Web Token
    
+
+## LIVE
+
+Follow [this link](https://powerful-inlet-91715.herokuapp.com/) to check out a live demo of this application
+  - email: example@example.com
+  - password: 1234
