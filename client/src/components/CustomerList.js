@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { loadUser } from '../store/slices/auth.slice';
 import {
 	getAllCustomers,
 	deleteCustomer,
