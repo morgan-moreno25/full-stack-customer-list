@@ -1,5 +1,5 @@
 const express = require('express');
-const DB = require('./config/DB');
+const DB = require('./utils/db');
 const requestHeaders = require('./middleware/headers');
 const cors = require('cors');
 const path = require('path');
@@ -9,7 +9,9 @@ const baseRouter = require('./routes/api');
 const app = express();
 
 // Connect MongoDB
-DB.connect();
+DB.connect()
+    .then(msg => console.log(msg))
+    .catch(err => console.error(err));
 
 // Middleware
 app.use(express.json());
