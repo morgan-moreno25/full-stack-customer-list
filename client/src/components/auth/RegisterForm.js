@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import { register } from '../../store/slices/auth.slice';
+import { updateAlert } from '../../store/slices/alert.slice';
 
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
@@ -30,7 +31,13 @@ export default function RegisterForm() {
 			register({ name, email, password })
 		);
 
-		console.log(resultAction.payload);
+		if (register.fulfilled.match(resultAction)) {
+			console.log('Register successful');
+		} else {
+			const { msg } = resultAction.payload;
+
+			dispatch(updateAlert({ type: 'danger', msg }));
+		}
 	};
 
 	return (

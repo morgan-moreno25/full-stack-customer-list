@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import { login } from '../../store/slices/auth.slice';
+import { updateAlert } from '../../store/slices/alert.slice';
 
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
@@ -26,7 +27,13 @@ export default function LoginForm() {
 
 		const resultAction = await dispatch(login({ email, password }));
 
-		console.log(resultAction.payload);
+		if (login.fulfilled.match(resultAction)) {
+			console.log('Login successful');
+		} else {
+			const { msg } = resultAction.payload;
+
+			dispatch(updateAlert({ type: 'danger', msg }));
+		}
 	};
 
 	return (

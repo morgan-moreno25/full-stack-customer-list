@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 
 import Welcome from './components/Welcome';
 import CustomerList from './components/CustomerList';
+import Alert from './components/Alert';
 
 const themeObject = {
 	palette: {
@@ -48,6 +49,7 @@ const App = () => {
 	const dispatch = useDispatch();
 
 	const authenticated = useSelector((state) => state.auth.authenticated);
+	const alert = useSelector((state) => state.alert.alert);
 
 	useEffect(() => {
 		dispatch(loadUser());
@@ -68,6 +70,7 @@ const App = () => {
 					<Route path='/customer-list'>
 						<CustomerList toggleTheme={toggleDarkMode} />
 					</Route>
+					{alert ? <Alert /> : null}
 				</div>
 			</MuiThemeProvider>
 		</Router>
