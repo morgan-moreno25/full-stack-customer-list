@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Button from '@material-ui/core/Button';
@@ -15,18 +15,29 @@ import { udpateCustomer } from '../store/slices/customer.slice';
 export default function EditCustomerModal({ customer, toggle, open }) {
 	const dispatch = useDispatch();
 
-	const [firstName, setFirstName] = useState(customer.firstName);
-	const [lastName, setLastName] = useState(customer.lastName);
-	const [phoneNumber, setPhoneNumber] = useState(customer.phoneNumber);
+	const [firstName, setFirstName] = useState('');
+	const [lastName, setLastName] = useState('');
+	const [phoneNumber, setPhoneNumber] = useState('');
+
+	useEffect(() => {
+		setFirstName(customer.firstName);
+		setLastName(customer.lastName);
+		setPhoneNumber(customer.phoneNumber);
+	}, [customer]);
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
 
 		const resultAction = await dispatch(
-			udpateCustomer({ id: customer.id, customer })
+			udpateCustomer({
+				id: customer.id,
+				customer: { firstName, lastName, phoneNumber },
+			})
 		);
 
 		console.log(resultAction.payload);
+
+		toggle();
 	};
 
 	return (

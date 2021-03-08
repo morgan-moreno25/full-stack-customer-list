@@ -10,9 +10,10 @@ function useTimestamp() {
 	return `${hours}:${minutes}`;
 }
 
-export default function requestLogger(req, res, next) {
+module.exports = function requestLogger(req, res, next) {
 	const timestamp = useTimestamp();
 
 	console.log(`*[${timestamp}] - ${req.method} ${req.path}`);
 	console.log(`*[${timestamp}] - BODY:`, req.body);
-}
+	next();
+};

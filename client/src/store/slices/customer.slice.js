@@ -10,7 +10,7 @@ export const getAllCustomers = createAsyncThunk(
 
 			return response.data;
 		} catch (error) {
-			return thunkAPI.rejectWithValue(error);
+			return thunkAPI.rejectWithValue(error.response.data);
 		}
 	}
 );
@@ -25,7 +25,7 @@ export const addCustomer = createAsyncThunk(
 
 			return response.data;
 		} catch (error) {
-			return thunkAPI.rejectWithValue(error);
+			return thunkAPI.rejectWithValue(error.response.data);
 		}
 	}
 );
@@ -37,7 +37,7 @@ export const udpateCustomer = createAsyncThunk(
 		const config = tokenConfig(thunkAPI.getState);
 
 		try {
-			const response = await axios.post(
+			const response = await axios.put(
 				`/api/customers/${id}`,
 				body,
 				config
@@ -50,7 +50,7 @@ export const udpateCustomer = createAsyncThunk(
 
 			return payload;
 		} catch (error) {
-			return thunkAPI.rejectWithValue(error);
+			return thunkAPI.rejectWithValue(error.response.data);
 		}
 	}
 );
@@ -64,12 +64,12 @@ export const deleteCustomer = createAsyncThunk(
 
 			const payload = {
 				id,
-				customer: response.data,
+				customer: response.data.customer,
 			};
 
 			return payload;
 		} catch (error) {
-			return thunkAPI.rejectWithValue(error);
+			return thunkAPI.rejectWithValue(error.response.data);
 		}
 	}
 );

@@ -31,6 +31,7 @@ export default function AddCustomerModal() {
 		);
 
 		console.log(resultAction.payload);
+		toggle();
 	};
 
 	return (

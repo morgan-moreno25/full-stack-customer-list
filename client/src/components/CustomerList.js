@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { loadUser } from '../store/slices/auth.slice';
@@ -41,6 +41,10 @@ export default function CustomerList({ toggleTheme }) {
 
 	const authenticated = useSelector((state) => state.auth.authenticated);
 	const customers = useSelector((state) => state.customer.customers);
+
+	useEffect(() => {
+		dispatch(getAllCustomers());
+	}, [dispatch]);
 
 	const [modalInfo, setModalInfo] = useState({
 		id: '',
