@@ -1,9 +1,8 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import { login } from '../../store/actions/authActions';
+import { login } from '../../store/slices/auth.slice';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -17,88 +16,38 @@ import Typography from '@material-ui/core/Typography';
 import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
 
-class LoginForm extends React.Component {
-    state = {
-        email: '',
-        password: '',
-        alert: false,
-        msg: null,
-    };
-    static propTypes = {
-        login: PropTypes.func.isRequired,
-        isAuthenticated: PropTypes.bool,
-        error: PropTypes.object,
-    };
+export default function LoginForm(){
+    const dispatch = useDispatch();
 
-    componentDidUpdate(prevProps){
-        const { error } = this.props;
+    const authenticated = useSelector(state => state.auth.authenticated);
 
-        if(error !== prevProps.error){
-            if(error.id === 'LOGIN_FAIL'){
-                this.setState({ msg: error.msg.msg });
-                this.toggleAlert();
-            }else{
-                this.setState({ msg: null });
-            };
-        };
-    };
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    toggleAlert = () => {
-        this.setState({  alert: !this.state.alert });
-    };
-    handleChange = (e) => {
-        this.setState({
-            ...this.state,
-            [e.target.name]: e.target.value,
-        });
-    };
-    onSubmit = (e) => {
+    const onSubmit = async e => {
         e.preventDefault();
 
-        const { email, password } = this.state;
+        const resultAction = await dispatch(login({email, password}));
 
-        let user = { email, password };
-
-        this.props.login(user);
-    };
-    alertDialog = () => { 
-        return (
-            <Dialog open={this.state.alert} onClose={this.toggleAlert}>
-                <DialogContent>
-                    <DialogContentText>
-                        { this.state.msg }
-                    </DialogContentText>
-                </DialogContent>
-            </Dialog>
-        );
+        console.log(resultAction.payload);
     };
 
-
-    render(){
-        const { isAuthenticated } = this.props;
-        return (
-            <form id="login-form" >
-                { isAuthenticated ? <Redirect to="/customer-list" /> : null }
-                { this.state.alert ? this.alertDialog() : null }
-                <Typography variant="h2">Login</Typography>
-                <FormControl>
-                    <InputLabel htmlFor="email">Email</InputLabel>
-                    <Input type="email" id="email" name="email" startAdornment={<EmailIcon />} onChange={this.handleChange} />
-                </FormControl>
-                <FormControl>
-                    <InputLabel htmlFor="password">Password</InputLabel>
-                    <Input  type="password" id="password" name="password" startAdornment={<LockIcon />} onChange={this.handleChange} />
-                </FormControl>
-                <Button color="secondary" variant="contained" onClick={this.onSubmit}>Login</Button>
-            </form>
-        );
-    };
+    return (
+        <form id="login-form" >
+            { authenticated ? <Redirect to="/customer-list" /> : null }
+            <Typography variant="h2">Login</Typography>
+            <FormControl>
+                <InputLabel htmlFor="email">Email</InputLabel>
+                <Input type="email" id="email" name="email" startAdornment={<EmailIcon />} onChange={e => setEmail(e.target.value)} />
+            </FormControl>
+            <FormControl>
+                <InputLabel htmlFor="password">Password</InputLabel>
+                <Input  type="password" id="password" name="password" startAdornment={<LockIcon />} onChange={e => setPassword(e.target.value)} />
+            </FormControl>
+            <Button color="secondary" variant="contained" onClick={onSubmit}>Login</Button>
+        </form>
+    );
 };
 
-const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    error: state.error,
-});
-    
 
-export default connect(mapStateToProps, { login })(LoginForm);
+    

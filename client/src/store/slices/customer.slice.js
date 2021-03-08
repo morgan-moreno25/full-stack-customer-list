@@ -102,10 +102,10 @@ const customerSlice = createSlice({
             state.isLoading = false;
             state.error = payload;
         });
-        builder.addCase(updateCustomer.pending, state => {
+        builder.addCase(udpateCustomer.pending, state => {
             state.isLoading = true;
         });
-        builder.addCase(updateCustomer.fulfilled, (state, { payload }) => {
+        builder.addCase(udpateCustomer.fulfilled, (state, { payload }) => {
             state.isLoading = false;
             const index = state.customers.findIndex(customer => customer.id === payload.id);
             if(index !== -1){
