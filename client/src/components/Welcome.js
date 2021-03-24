@@ -17,20 +17,22 @@ export default function Welcome() {
 			<Typography variant='h1'>Welcome to Customer List</Typography>
 			<Container id='login-register' maxWidth='sm'>
 				<AppBar position='static' color='primary'>
-					<ButtonGroup variant='text' className='btn-group'>
+					<div className='btn-group'>
 						<Button
+							className={authForm === 'login' ? 'active' : ''}
 							type='button'
 							onClick={() => setAuthForm('login')}
 						>
 							Login
 						</Button>
 						<Button
+							className={authForm === 'register' ? 'active' : ''}
 							type='button'
 							onClick={() => setAuthForm('register')}
 						>
 							Register
 						</Button>
-					</ButtonGroup>
+					</div>
 				</AppBar>
 				{authForm === 'login' ? <LoginForm /> : <RegisterForm />}
 			</Container>
