@@ -24,7 +24,7 @@ export default function RegisterForm() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	const onSubmit = async (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		const resultAction = await dispatch(
@@ -41,7 +41,7 @@ export default function RegisterForm() {
 	};
 
 	return (
-		<form id='register-form'>
+		<form id='register-form' onSubmit={handleSubmit}>
 			{authenticated ? <Redirect to='/customer-list' /> : null}
 			<Typography variant='h2'>Register</Typography>
 			<FormControl>
@@ -71,7 +71,7 @@ export default function RegisterForm() {
 					onChange={(e) => setPassword(e.target.value)}
 				/>
 			</FormControl>
-			<Button color='secondary' variant='contained' onClick={onSubmit}>
+			<Button color='secondary' variant='contained' type='submit'>
 				Register
 			</Button>
 		</form>

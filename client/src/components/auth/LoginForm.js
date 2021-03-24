@@ -5,11 +5,14 @@ import { Redirect } from 'react-router-dom';
 import { login } from '../../store/slices/auth.slice';
 import { updateAlert } from '../../store/slices/alert.slice';
 
-import FormControl from '@material-ui/core/FormControl';
-import Button from '@material-ui/core/Button';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import Typography from '@material-ui/core/Typography';
+import {
+	FormControl,
+	Button,
+	InputLabel,
+	Input,
+	Typography,
+} from '@material-ui/core';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
@@ -22,7 +25,7 @@ export default function LoginForm() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	const onSubmit = async (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		const resultAction = await dispatch(login({ email, password }));
@@ -37,7 +40,7 @@ export default function LoginForm() {
 	};
 
 	return (
-		<form id='login-form'>
+		<form id='login-form' onSubmit={handleSubmit}>
 			{authenticated ? <Redirect to='/customer-list' /> : null}
 			<Typography variant='h2'>Login</Typography>
 			<FormControl>
@@ -60,9 +63,13 @@ export default function LoginForm() {
 					onChange={(e) => setPassword(e.target.value)}
 				/>
 			</FormControl>
-			<Button color='secondary' variant='contained' onClick={onSubmit}>
+			<Button color='secondary' variant='contained' type='submit'>
 				Login
 			</Button>
+			<Alert severity='info'>
+				<AlertTitle>TESTING</AlertTitle>
+				Email: example@example.com | Password: 1234
+			</Alert>
 		</form>
 	);
 }
