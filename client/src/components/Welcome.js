@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -9,47 +9,31 @@ import Typography from '@material-ui/core/Typography';
 import LoginForm from './auth/LoginForm';
 import RegisterForm from './auth/RegisterForm';
 
+export default function Welcome() {
+	const [authForm, setAuthForm] = useState('login');
 
-class Welcome extends React.Component {
-    state = {
-        login: true,
-        regitster: false,
-    };
-
-    handleLoginClick = () => {
-        this.setState({
-            ...this.state,
-            login: true,
-            register: false,
-        });
-    };
-    handleRegisterClick = () => {
-        this.setState({
-            ...this.state,
-            login: false,
-            register: true,
-        });
-    };
-
-
-    render(){
-        const { login } = this.state;
-        return(
-            <div id="welcome">
-                <Typography variant="h1">WELCOME TO CUSTOMER LIST</Typography>
-                <Container id="login-register" maxWidth="sm">
-                    <AppBar position="static" color="primary" >
-                        <ButtonGroup variant="text" className="btn-group">
-                            <Button type="button" onClick={this.handleLoginClick}>Login</Button>
-                            <Button type="button" onClick={this.handleRegisterClick}>Register</Button>
-                        </ButtonGroup>
-                    </AppBar>
-                    { login ? <LoginForm /> : <RegisterForm /> }
-                </Container>
-            </div>
-        );
-    }
-    
-};
-
-export default Welcome;
+	return (
+		<div id='welcome'>
+			<Typography variant='h1'>Welcome to Customer List</Typography>
+			<Container id='login-register' maxWidth='sm'>
+				<AppBar position='static' color='primary'>
+					<ButtonGroup variant='text' className='btn-group'>
+						<Button
+							type='button'
+							onClick={() => setAuthForm('login')}
+						>
+							Login
+						</Button>
+						<Button
+							type='button'
+							onClick={() => setAuthForm('register')}
+						>
+							Register
+						</Button>
+					</ButtonGroup>
+				</AppBar>
+				{authForm === 'login' ? <LoginForm /> : <RegisterForm />}
+			</Container>
+		</div>
+	);
+}
