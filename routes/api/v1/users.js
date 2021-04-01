@@ -3,10 +3,9 @@ const userController = require('../../controllers/user.controller');
 
 const router = express.Router();
 
-
 /**
- * @route POST api/users
- * @info Register a new user
+ * @method POST /api/v1/users
+ * @description Creates a new user
  * @access Public
  */
 router.post('/', userController.register);

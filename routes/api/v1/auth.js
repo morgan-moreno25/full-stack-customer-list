@@ -5,16 +5,16 @@ const authController = require('../../controllers/auth.controller');
 const router = express.Router();
 
 /**
- * @route POST api/auth
- * @info Authorize a user
+ * @method POST /api/v1/auth
+ * @description Login a user
  * @access Public
  */
 router.post('/', authController.login);
 
 /**
- * @route GET api/auth/user
- * @info Get user data
- * @access Private
+ * @method GET /api/v1/auth/user
+ * @description Authenticates a jwt and loads the user
+ * @access Public | Auth
  */
 router.get('/user', auth, authController.loadUser);
 

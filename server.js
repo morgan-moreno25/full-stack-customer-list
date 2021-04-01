@@ -1,16 +1,14 @@
 const express = require('express');
-const DB = require('./utils/db');
 const requestHeaders = require('./middleware/headers');
 const requestLogger = require('./middleware/requestLogger');
 const cors = require('cors');
 const path = require('path');
-
-const baseRouter = require('./routes/api');
+const connect_db = require('./utils/connect_db');
 
 const app = express();
 
 // Connect MongoDB
-DB.connect()
+connect_db()
 	.then(msg => console.log(msg))
 	.catch(err => console.error(err));
 
@@ -21,7 +19,7 @@ app.use(requestLogger);
 app.use(cors());
 
 // Routing
-app.use('/api', baseRouter);
+app.use('/', require('./routes'));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
