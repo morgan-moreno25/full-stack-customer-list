@@ -1,6 +1,6 @@
 const express = require('express');
-const auth = require('../../middleware/auth');
-const authController = require('../../controllers/auth.controller');
+const auth = require('../../../middleware/auth');
+const authController = require('../../../controllers/auth.controller');
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ const router = express.Router();
  * @description Login a user
  * @access Public
  */
-router.post('/', authController.login);
+router.post('/login', authController.login);
 
 /**
  * @method GET /api/v1/auth/user

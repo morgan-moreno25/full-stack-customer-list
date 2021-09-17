@@ -1,15 +1,15 @@
-export default function tokenConfig(getState){
-    const token = getState().auth.token;
+export default function tokenConfig(getState) {
+	const token = getState().auth.token;
 
-    const config = {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    };
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	};
 
-    if(token){
-        config.headers['x-auth-token'] = token;
-    };
+	if (token) {
+		config.headers['Authorization'] = `Bearer ${token}`;
+	}
 
-    return config;
-};
+	return config;
+}

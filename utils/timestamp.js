@@ -14,6 +14,4 @@ const useTimestamp = () => {
 	return `${hours}:${minutes}`;
 };
 
-module.exports = {
-	useTimestamp,
-};
+module.exports = useTimestamp;

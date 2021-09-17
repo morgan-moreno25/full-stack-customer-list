@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import tokenConfig from './tokenConfig';
-import axios from 'axios';
+import { api } from '../api';
 
 export const login = createAsyncThunk(
 	'auth/login',
@@ -13,7 +13,7 @@ export const login = createAsyncThunk(
 		};
 
 		try {
-			const response = await axios.post('/api/auth', body, config);
+			const response = await api.post('/auth/login', body, config);
 
 			return response.data;
 		} catch (error) {
@@ -32,7 +32,7 @@ export const register = createAsyncThunk(
 		};
 
 		try {
-			const response = await axios.post('/api/users', body, config);
+			const response = await api.post('/auth/register', body, config);
 
 			return response.data;
 		} catch (error) {
@@ -46,7 +46,7 @@ export const loadUser = createAsyncThunk(
 		const config = tokenConfig(thunkAPI.getState);
 
 		try {
-			const response = await axios.get('/api/auth/user', config);
+			const response = await api.get('/auth/user', config);
 
 			return response.data;
 		} catch (error) {

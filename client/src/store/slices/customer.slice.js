@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import tokenConfig from './tokenConfig';
 import axios from 'axios';
+import { api } from '../api';
 
 export const getAllCustomers = createAsyncThunk(
 	'customer/getAll',
 	async (_, thunkAPI) => {
 		try {
-			const response = await axios.get('/api/customers');
+			const response = await api.get('/customers');
 
 			return response.data;
 		} catch (error) {
@@ -21,7 +22,7 @@ export const addCustomer = createAsyncThunk(
 		const config = tokenConfig(thunkAPI.getState);
 
 		try {
-			const response = await axios.post('/api/customers', body, config);
+			const response = await api.post('/customers', body, config);
 
 			return response.data;
 		} catch (error) {
@@ -37,11 +38,7 @@ export const udpateCustomer = createAsyncThunk(
 		const config = tokenConfig(thunkAPI.getState);
 
 		try {
-			const response = await axios.put(
-				`/api/customers/${id}`,
-				body,
-				config
-			);
+			const response = await api.put(`/customers/${id}`, body, config);
 
 			const payload = {
 				id,
@@ -60,7 +57,7 @@ export const deleteCustomer = createAsyncThunk(
 		const config = tokenConfig(thunkAPI.getState);
 
 		try {
-			const response = await axios.delete(`/api/customers/${id}`, config);
+			const response = await api.delete(`/customers/${id}`, config);
 
 			const payload = {
 				id,

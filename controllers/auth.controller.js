@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const config = require('../utils/config');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const CustomError = require('../utils/CustomError');
 
 /**
  * @description Loads a user from the database
@@ -14,9 +15,18 @@ const loadUser = async (req, res, next) => {
 	try {
 		const user = await User.findById(req.user.id);
 
+		if (!user) {
+			return next(
+				new CustomError(
+					400,
+					`User with id ${req.user.id} does not exist`
+				)
+			);
+		}
+
 		return res.status(200).json(user);
 	} catch (error) {
-		return res.status(500).json(error);
+		return next(error);
 	}
 };
 /**
@@ -29,7 +39,7 @@ const login = async (req, res, next) => {
 	const { email, password } = req.body;
 
 	if (!email || !password) {
-		return res.status(400).json({ msg: 'Please enter all fields' });
+		return next(new CustomError(400, 'Please enter all fields'));
 	}
 
 	try {
@@ -54,13 +64,13 @@ const login = async (req, res, next) => {
 					},
 				});
 			} else {
-				return res.status(400).json({ msg: 'Invalid credentials' });
+				return next(new CustomError(400, 'Invalid email or password'));
 			}
 		} else {
-			return res.status(400).json({ msg: 'User does not exist' });
+			return next(new CustomError(400, 'Invalid email or password'));
 		}
 	} catch (error) {
-		return res.status(500).json();
+		return next(error);
 	}
 };
 
@@ -74,14 +84,14 @@ const register = async (req, res, next) => {
 	const { name, email, password } = req.body;
 
 	if (!name || !email || !password) {
-		return res.status(400).json({ msg: 'Please enter all fields' });
+		return next(new CustomError(400, 'Please enter all fields'));
 	}
 
 	try {
 		const userAlreadyExists = await User.findOne({ email });
 
 		if (userAlreadyExists) {
-			return res.status(400).json({ msg: 'User already exists' });
+			return next(new CustomError(400, 'Email is already in use'));
 		} else {
 			const salt = await bcrypt.genSalt(10);
 			const hash = await bcrypt.hash(password, salt);
@@ -101,7 +111,7 @@ const register = async (req, res, next) => {
 			return res.status(201).json({ token, user });
 		}
 	} catch (error) {
-		return res.status(500).json(error);
+		return next(error);
 	}
 };
 

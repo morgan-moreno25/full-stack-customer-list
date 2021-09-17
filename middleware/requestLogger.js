@@ -1,5 +1,5 @@
 const { Request, Response, NextFunction } = require('express');
-const { useTimestamp } = require('../utils/timestamp');
+const useTimestamp = require('../utils/timestamp');
 
 /**
  * @description Logs a request and it's accompanying body when it is made

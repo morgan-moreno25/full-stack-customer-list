@@ -1,5 +1,6 @@
 const { Request, Response, NextFunction } = require('express');
 const Customer = require('../models/Customer');
+const CustomError = require('../utils/CustomError');
 
 /**
  * @description Creates a new customer
@@ -11,7 +12,7 @@ const createCustomer = async (req, res, next) => {
 	const { firstName, lastName, phoneNumber } = req.body;
 
 	if (!firstName || !lastName || !phoneNumber) {
-		return res.status(400).json({ msg: 'Please enter all fields' });
+		return next(new CustomError(400, 'Please enter alll fields'));
 	}
 
 	try {
@@ -21,7 +22,7 @@ const createCustomer = async (req, res, next) => {
 
 		return res.status(201).json(customer);
 	} catch (error) {
-		return res.status(500).json(error);
+		return next(error);
 	}
 };
 /**
@@ -41,10 +42,10 @@ const deleteOneCustomer = async (req, res, next) => {
 				.status(200)
 				.json({ msg: 'Deleted successfully', customer });
 		} else {
-			return res.status(400).json({ msg: 'Customer does not exist' });
+			return next(new CustomError(400, 'User does not exist'));
 		}
 	} catch (error) {
-		return res.status(500).json(error);
+		return next(error);
 	}
 };
 /**
@@ -59,7 +60,7 @@ const getAllCustomers = async (req, res, next) => {
 
 		return res.status(200).json(customers);
 	} catch (error) {
-		return res.status(500).json(error);
+		return next(error);
 	}
 };
 /**
@@ -72,31 +73,28 @@ const updateCustomer = async (req, res, next) => {
 	const { firstName, lastName, phoneNumber } = req.body;
 
 	if (!firstName || !lastName || !phoneNumber) {
-		return res.status(400).json({ msg: 'Please enter all fields' });
+		return next(new CustomError(400, 'Please include all fields'));
 	}
 
 	try {
-		const customerDoesExist = await Customer.findById(req.params.id);
-
-		if (customerDoesExist) {
-			const customer = await Customer.findByIdAndUpdate(
-				req.params.id,
-				{
-					$set: {
-						firstName,
-						lastName,
-						phoneNumber,
-					},
+		const customer = await Customer.findByIdAndUpdate(
+			req.params.id,
+			{
+				$set: {
+					firstName,
+					lastName,
+					phoneNumber,
 				},
-				{ new: true }
-			);
-
+			},
+			{ new: true }
+		);
+		if (customer) {
 			return res.status(200).json(customer);
 		} else {
-			return res.status(400).json({ msg: 'Customer does not exist' });
+			return next(new CustomError(400, 'Customer does not exist'));
 		}
 	} catch (error) {
-		return res.status(500).json(error);
+		return next(error);
 	}
 };
 
