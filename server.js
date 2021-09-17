@@ -4,6 +4,7 @@ const requestLogger = require('./middleware/requestLogger');
 const cors = require('cors');
 const path = require('path');
 const connect_db = require('./utils/connect_db');
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 
@@ -30,6 +31,8 @@ if (process.env.NODE_ENV === 'production') {
 		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
 	});
 }
+
+app.use(errorHandler);
 
 // Connect app to server
 var server = app.listen(process.env.PORT || 5000, () => {
