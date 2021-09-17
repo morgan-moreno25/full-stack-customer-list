@@ -8,8 +8,15 @@ const config = require('../utils/config');
  * @param {Response} res Express response object
  * @param {NextFunction} next Express next function
  */
-function auth(req, res, next) {
-	const token = req.header('x-auth-token');
+const auth = (req, res, next) => {
+	let token;
+
+	if (
+		req.headers.authorization &&
+		req.headers.authorization.startsWith('Bearer ')
+	) {
+		token = req.headers.authorization.split(' ')[1];
+	}
 
 	// Check for token
 	if (!token)
@@ -23,6 +30,6 @@ function auth(req, res, next) {
 	} catch (error) {
 		res.status(400).json({ msg: error.message });
 	}
-}
+};
 
 module.exports = auth;

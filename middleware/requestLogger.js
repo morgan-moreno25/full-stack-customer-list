@@ -1,20 +1,5 @@
 const { Request, Response, NextFunction } = require('express');
-
-/**
- * @description Creates a new timestamp from the current time
- * @returns {String} The current time formatted as HH:MM
- */
-function useTimestamp() {
-	const date = new Date();
-
-	const hours = date.getHours();
-	let minutes = date.getMinutes();
-	if (minutes < 10) {
-		minutes = `0${minutes}`;
-	}
-
-	return `${hours}:${minutes}`;
-}
+const { useTimestamp } = require('../utils/timestamp');
 
 /**
  * @description Logs a request and it's accompanying body when it is made
@@ -22,12 +7,19 @@ function useTimestamp() {
  * @param {Response} res Express response object
  * @param {NextFunction} next Express next function
  */
-function requestLogger(req, res, next) {
+const requestLogger = (req, res, next) => {
 	const timestamp = useTimestamp();
 
-	console.log(`*[${timestamp}] - ${req.method} ${req.path}`);
-	console.log(`*[${timestamp}] - BODY:`, req.body);
+	console.log('********** REQUEST **********');
+	console.log(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
+	console.log(`${req.method} ${req.path}`);
+	console.log('Body: ', req.body);
+	console.log('Query: ', req.query);
+	res.on('finish', function () {
+		console.log(timestamp, this.statusCode);
+		console.log('********* REQUEST END **********');
+	});
 	next();
-}
+};
 
 module.exports = requestLogger;

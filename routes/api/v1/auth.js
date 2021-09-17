@@ -18,4 +18,11 @@ router.post('/', authController.login);
  */
 router.get('/user', auth, authController.loadUser);
 
+/**
+ * @method POST /api/v1/auth/register
+ * @description Registers a user
+ * @access Public
+ */
+router.post('/register', authController.register);
+
 module.exports = router;
