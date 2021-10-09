@@ -86,7 +86,6 @@ const authSlice = createSlice({
 
 			state.isLoading = false;
 			state.authenticated = true;
-			state.user = payload.user;
 			state.token = payload.token;
 		});
 		builder.addCase(login.rejected, (state, { payload }) => {
@@ -103,7 +102,6 @@ const authSlice = createSlice({
 			state.isLoading = false;
 			state.authenticated = true;
 			state.token = payload.token;
-			state.user = payload.user;
 		});
 		builder.addCase(register.rejected, (state, { payload }) => {
 			state.isLoading = false;
@@ -117,7 +115,7 @@ const authSlice = createSlice({
 		builder.addCase(loadUser.fulfilled, (state, { payload }) => {
 			state.isLoading = false;
 			state.authenticated = true;
-			state.user = payload;
+			state.user = payload.user;
 		});
 		builder.addCase(loadUser.rejected, (state, { payload }) => {
 			localStorage.removeItem('token');

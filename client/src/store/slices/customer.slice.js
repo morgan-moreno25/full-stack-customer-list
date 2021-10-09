@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import tokenConfig from './tokenConfig';
-import axios from 'axios';
 import { api } from '../api';
 
 export const getAllCustomers = createAsyncThunk(

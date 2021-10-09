@@ -24,7 +24,7 @@ const loadUser = async (req, res, next) => {
 			);
 		}
 
-		return res.status(200).json(user);
+		return res.status(200).json({ user });
 	} catch (error) {
 		return next(error);
 	}
@@ -57,11 +57,6 @@ const login = async (req, res, next) => {
 
 				return res.status(200).json({
 					token,
-					user: {
-						id: validUser._id,
-						name: validUser.name,
-						email: validUser.email,
-					},
 				});
 			} else {
 				return next(new CustomError(400, 'Invalid email or password'));
@@ -108,7 +103,7 @@ const register = async (req, res, next) => {
 				expiresIn: 3600,
 			});
 
-			return res.status(201).json({ token, user });
+			return res.status(201).json({ token });
 		}
 	} catch (error) {
 		return next(error);

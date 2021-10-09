@@ -13,12 +13,21 @@ body {
 	width: 100%;
 }
 #welcome {
-	background: url('./hero.jpg');
+	background-image: url('./hero.jpg');
+	background-color: hsla(50, 33%, 25%, 0.75);
 	display: grid;
 	grid-template-columns: 1fr;
 	grid-template-rows: 25vh 75vh;
 	justify-items: center;
 	align-items: center;
+}
+
+#welcome > .title-container {
+	padding: 1.2rem;
+	border: 1px solid black;
+	border-radius: 1rem;
+	background: rgba(255, 255, 255, 0.95);
+	box-shadow: 0 0 5px black;
 }
 #login-register {
 	justify-self: center;
@@ -36,6 +45,14 @@ body {
 	display: grid;
 	grid-template-columns: 1fr;
 	grid-template-rows: repeat(5, 1fr);
+}
+#login-form > .title-container,
+#register-form > .title-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	text-shadow: 0 0 1px black;
 }
 #login-form > h2,
 #register-form > h2 {

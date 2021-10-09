@@ -42,7 +42,9 @@ export default function LoginForm() {
 	return (
 		<form id='login-form' onSubmit={handleSubmit}>
 			{authenticated ? <Redirect to='/customer-list' /> : null}
-			<Typography variant='h2'>Login</Typography>
+			<div className='title-container'>
+				<Typography variant='h4'>Login</Typography>
+			</div>
 			<FormControl>
 				<InputLabel htmlFor='email'>Email</InputLabel>
 				<Input
@@ -67,8 +69,8 @@ export default function LoginForm() {
 				Login
 			</Button>
 			<Alert severity='info'>
-				<AlertTitle>TESTING</AlertTitle>
-				Email: example@example.com | Password: 1234
+				<AlertTitle>Demo User</AlertTitle>
+				Email: example@example.com | Password: password12
 			</Alert>
 		</form>
 	);

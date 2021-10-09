@@ -43,10 +43,13 @@ export default function RegisterForm() {
 	return (
 		<form id='register-form' onSubmit={handleSubmit}>
 			{authenticated ? <Redirect to='/customer-list' /> : null}
-			<Typography variant='h2'>Register</Typography>
+			<div className='title-container'>
+				<Typography variant='h4'>Register</Typography>
+			</div>
 			<FormControl>
 				<InputLabel htmlFor='name'>Name</InputLabel>
 				<Input
+					type='text'
 					id='name'
 					name='name'
 					startAdornment={<AccountCircle />}
@@ -56,6 +59,7 @@ export default function RegisterForm() {
 			<FormControl>
 				<InputLabel htmlFor='email'>Email</InputLabel>
 				<Input
+					type='email'
 					id='email'
 					name='email'
 					startAdornment={<EmailIcon />}
@@ -65,6 +69,7 @@ export default function RegisterForm() {
 			<FormControl>
 				<InputLabel htmlFor='password'>Password</InputLabel>
 				<Input
+					type='password'
 					id='password'
 					name='password'
 					startAdornment={<LockIcon />}

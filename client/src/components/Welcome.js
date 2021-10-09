@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 
@@ -14,7 +13,9 @@ export default function Welcome() {
 
 	return (
 		<div id='welcome'>
-			<Typography variant='h1'>Welcome to Customer List</Typography>
+			<div className='title-container'>
+				<Typography variant='h2'>Welcome to Customer List</Typography>
+			</div>
 			<Container id='login-register' maxWidth='sm'>
 				<AppBar position='static' color='primary'>
 					<div className='btn-group'>
